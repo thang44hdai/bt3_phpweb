@@ -109,11 +109,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
               <div class="card-body">
                 <div class="row justify-content-between">
                   <div class="col-xl-3">
-                    <div class="card" style="background-color: #337ab7; color: #fff">
+                    <div class="card" style="background-color: #0a0a0a; color: #fff">
                       <div class="card-body">
                         <div class="row">
                           <div class="col">
-                            <h2>Chức Vụ</h2>
+                            <h2>Phòng ban</h2>
                           </div>
                           <div class="col" style="max-width: fit-content !important;">
                             <i class="fs-4 bi bi-table"></i>
@@ -130,7 +130,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                   </div>
 
                   <div class="col-xl-3">
-                    <div class="card" style="background-color: #c43349; color: #fff">
+                    <div class="card" style="background-color: #0a0a0a; color: #fff">
                       <div class="card-body">
                         <div class="row">
                           <div class="col">
@@ -151,7 +151,28 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                   </div>
 
                   <div class="col-xl-3">
-                    <div class="card" style="background-color: #d65b36; color: #fff">
+                    <div class="card" style="background-color: #0a0a0a; color: #fff">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            <h2>Lương</h2>
+                          </div>
+                          <div class="col" style="max-width: fit-content !important;">
+                            <i class="fs-4 bi bi-cash-coin"></i>
+                          </div>
+                        </div>
+                        <br><br>
+                        <a href="salary.php" class="text-white text-decoration-none"
+                          style="min-width: 100%; text-align: center;">
+                          Xem Thêm
+                          <i class="bi bi-arrow-right-circle-fill mx-1"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-3">
+                    <div class="card" style="background-color: #0a0a0a; color: #fff">
                       <div class="card-body">
                         <div class="row">
                           <div class="col">
@@ -171,27 +192,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                     </div>
                   </div>
 
-
-                  <div class="col-xl-3">
-                    <div class="card" style="background-color: #21963c; color: #fff">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col">
-                            <h2>Lương</h2>
-                          </div>
-                          <div class="col" style="max-width: fit-content !important;">
-                            <i class="fs-4 bi bi-cash-coin"></i>
-                          </div>
-                        </div>
-                        <br><br>
-                        <a href="salary.php" class="text-white text-decoration-none"
-                          style="min-width: 100%; text-align: center;">
-                          Xem Thêm
-                          <i class="bi bi-arrow-right-circle-fill mx-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
