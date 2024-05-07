@@ -10,6 +10,5 @@ $con = mysqli_connect(HOSTNAME, USERNAME, PASSWORD, DATABASE);
 if (!$con)
     echo "fail";
 else
-    echo "success";
 
 ?>

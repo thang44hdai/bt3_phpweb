@@ -18,7 +18,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
   <body>
     <!-- Side Bar -->
-    <div class="side_bar fixed-top">
+    <div class="side_bar">
       <div class="container-fluid">
         <div class="row flex-nowrap">
           <div class="col-auto col-md-3 col-xl-2 col-2 bg-dark">
@@ -35,41 +35,74 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                     <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Trang chủ</span>
                   </a>
                 </li>
-                <li class="nav-item side-item">
-                  <a href="department.php" class="nav-link px-0 align-middle text-white">
-                    <i class="fs-4 bi bi-table"></i> <span class="ms-1 d-none d-sm-inline">Chức Vụ</span></a>
-                </li>
-                <li class="nav-item side-item">
-                  <a href="staff.php" class="nav-link px-0 align-middle text-white">
-                    <i class="fs-4 bi bi-people"></i> <span class="ms-1 d-none d-sm-inline">Nhân Viên</span></a>
-                </li>
-                <li class="nav-item side-item">
-                  <a href="salary.php" class="nav-link px-0 aligln-middle text-white">
-                    <i class="fs-4 bi bi-cash-coin"></i> <span class="ms-1 d-none d-sm-inline">Lương</span> </a>
-                </li>
-                <li class="nav-item side-item">
-                  <a href="leave.php" class="nav-link px-0 align-middle text-white">
-                    <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline ">Nghỉ Phép</span> </a>
-                </li>
-              </ul>
 
-              <hr style="border: 2px solid white; min-width: 100%">
-              <div class="dropdown pb-4">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                  id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="\assets\img\default_avatar.svg" alt="hugenerd" width="50" height="50" class="rounded-circle">
-                  <span class="d-none d-sm-inline mx-3">Admin</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                  <li><a class="dropdown-item" href="#">New project...</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
-                </ul>
-              </div>
+                <li class="nav-item side-item dropdown">
+                  <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#" id="navbarDropdown"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fs-4 bi bi-table"></i> <span class="ms-1 d-none d-sm-inline">Phòng ban</span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="department.php">Xem Phòng ban</a></li>
+                    <li><a class="dropdown-item" href="add_department.php">Thêm Phòng ban</a></li>
+                    <!-- Các mục dropdown khác có thể thêm vào đây -->
+                  </ul>
+                </li>
+
+                <li class="nav-item side-item dropdown">
+                  <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#" id="navbarDropdownStaff"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fs-4 bi bi-people"></i> <span class="ms-1 d-none d-sm-inline">Nhân viên</span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownStaff">
+                    <li><a class="dropdown-item" href="staff.php">Xem Nhân viên</a></li>
+                    <li><a class="dropdown-item" href="add_staff.php">Thêm Nhân viên</a></li>
+                    <!-- Các mục dropdown khác có thể thêm vào đây -->
+                  </ul>
+                </li>
+
+                <li class="nav-item side-item dropdown">
+                  <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#" id="navbarDropdownSalary"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fs-4 bi bi-cash-coin"></i> <span class="ms-1 d-none d-sm-inline">Lương</span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownSalary">
+                    <li><a class="dropdown-item" href="salary.php">Xem Lương</a></li>
+                    <li><a class="dropdown-item" href="add_salary.php">Thêm Lương</a></li>
+                    <!-- Các mục dropdown khác có thể thêm vào đây -->
+                  </ul>
+                </li>
+
+                <li class="nav-item side-item dropdown">
+                  <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#" id="navbarDropdownLeave"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline">Nghỉ phép</span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownLeave">
+                    <li><a class="dropdown-item" href="leave.php">Xem Nghỉ phép</a></li>
+                    <li><a class="dropdown-item" href="add_leave.php">Thêm Nghỉ phép</a></li>
+                    <!-- Các mục dropdown khác có thể thêm vào đây -->
+                  </ul>
+                </li>
+
+                <hr style="border: 2px solid white; min-width: 100%">
+                <div class="dropdown pb-4">
+
+                  <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="admin.svg" alt="hugenerd" width="50" height="50" class="rounded-circle">
+                    <span class="d-none d-sm-inline mx-3">Admin</span>
+                  </a>
+
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                  </ul>
+                </div>
             </div>
           </div>
 
