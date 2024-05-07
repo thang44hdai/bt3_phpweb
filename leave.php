@@ -79,18 +79,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                     </ul>
                                 </li>
 
-                                <li class="nav-item side-item dropdown">
-                                    <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#"
-                                        id="navbarDropdownLeave" role="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline">Nghỉ
-                                            phép</span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownLeave">
-                                        <li><a class="dropdown-item" href="leave.php">Xem Nghỉ phép</a></li>
-                                        <li><a class="dropdown-item" href="add_leave.php">Thêm Nghỉ phép</a></li>
-                                        <!-- Các mục dropdown khác có thể thêm vào đây -->
-                                    </ul>
+                                <li class="nav-item side-item">
+                                    <a href="leave.php" class="nav-link px-0 align-middle text-white">
+                                        <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline ">Nghỉ
+                                            Phép</span> </a>
                                 </li>
 
 

@@ -1,7 +1,7 @@
 <?php
 
     session_start();
-    require('connect_db.php');
+    require_once('connect_db.php');
 
     $nameErr = $emailErr = $genderErr = $addressErr = $phoneErr= "";
     $name = $email = $gender = $birth = $address = $phone = $department = $join = $avatar = "";
@@ -12,6 +12,25 @@
         $data = htmlspecialchars($data);
         return $data;
     }
+
+    $id = $_GET['id'];
+
+    $query_staff_by_ID = "SELECT * FROM nhan_vien_tbl WHERE id_nv=$id";
+
+    $staff_result = $con->query($query_staff_by_ID);
+
+    if (mysqli_num_rows($staff_result) == 1) {
+        $staff = mysqli_fetch_assoc($staff_result);
+        $name = $staff['ten'];
+        $birth = $staff['ngay_sinh'];
+        $gender = $staff['gioi_tinh'];
+        $phone = $staff['so_dien_thoai'];
+        $email = $staff['email'];
+        $address = $staff['dia_chi'];
+        $department = $staff['id_chuc_vu'];
+        $join = $staff['ngay_vao_lam'];
+        $avatar = $staff['anh'];
+    } 
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["name"])) {
@@ -85,13 +104,15 @@
         }
         return true;
     }
-    
-    if (isset($_POST['submit'])) {
-        if (!empty($name) && !empty($email)  && !empty($avatar) && !empty($birth) && !empty($gender) && !empty($address) && !empty($phone) && !empty($department) && !empty($join) && checkErr($nameErr, $emailErr, $genderErr, $addressErr, $phoneErr)) {
-            $query2 = "INSERT INTO nhan_vien_tbl(id, ten, ngay_sinh, gioi_tinh, so_dien_thoai, email, dia_chi, id_chuc_vu, ngay_vao_lam, ngay_them, anh, ngay_cap_nhat) 
-            VALUES (NULL,'$name','$birth','$gender','$phone','$email','$address','$department','$join',NULL,'$avatar', '$join');";
 
-            $con->query($query2);
+    if (isset($_POST['submit'])) {
+        
+        if (!empty($name) && !empty($email)  && !empty($avatar) && !empty($birth) && !empty($gender) && !empty($address) && !empty($phone) && !empty($department) && !empty($join) && checkErr($nameErr, $emailErr, $genderErr, $addressErr, $phoneErr)) {
+            $query = "UPDATE nhan_vien_tbl
+            SET ten='$name',ngay_sinh='$birth',gioi_tinh='$gender',so_dien_thoai='$phone',email='$email',dia_chi='$address',id_chuc_vu='$department',ngay_vao_lam='$join',anh='$avatar',ngay_cap_nhat='$join' 
+            WHERE id_nv=$id";
+
+            $con->query($query);
 
             header("Location: staff.php");
             exit();
@@ -179,9 +200,9 @@
                                 </li>
 
                                 <li class="nav-item side-item">
-                                    <a href="leave.php" class="nav-link px-0 align-middle text-white">
-                                    <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline ">Nghỉ Phép</span> </a>
-                                </li>
+                                        <a href="leave.php" class="nav-link px-0 align-middle text-white">
+                                            <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline ">Nghỉ Phép</span> </a>
+                                    </li>
 
                                 </ul>
 
@@ -214,7 +235,7 @@
 
                                 <div class="card-body">  
 
-                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Đăng ký nhân viên mới</h3>
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Cập nhật thông tin nhân viên</h3>
                                     <form method="post">
 
                                         <div class="row">
@@ -222,7 +243,7 @@
 
                                                 <div class="form-outline">
                                                     <label class="form-label" for="firstName">Họ và tên</label> <span class="error"> * <?php echo $nameErr;?></span> 
-                                                    <input type="text" name="name" class="form-control form-control-lg" />
+                                                    <input type="text" name="name" class="form-control form-control-lg" value="<?php echo $name?>"/>
                                                 </div>
 
                                             </div>
@@ -230,7 +251,7 @@
 
                                                 <div class="form-outline">
                                                     <label class="form-label" for="lastName">Email</label> <span class="error"> * <?php echo $emailErr;?></span> 
-                                                    <input type="text" name="email" class="form-control form-control-lg" />
+                                                    <input type="text" name="email" class="form-control form-control-lg" value="<?php echo $email?>"/>
                                                     
                                                 </div>
 
@@ -242,7 +263,7 @@
 
                                                 <div class="form-outline datepicker w-100">
                                                     <label for="birthdayDate" class="form-label">Ngày sinh</label> <span class="error"> * </span> 
-                                                    <input type="date" class="form-control form-control-lg" name="birth" />
+                                                    <input type="date" class="form-control form-control-lg" name="birth" value="<?php echo $birth?>"/>
                                                     
                                                 </div>
 
@@ -277,7 +298,7 @@
 
                                                 <div class="form-outline">
                                                     <label class="form-label" for="emailAddress">Địa chỉ</label> <span class="error"> * <?php echo $addressErr;?></span> 
-                                                    <input type="text" name="address" class="form-control form-control-lg" />
+                                                    <input type="text" name="address" class="form-control form-control-lg" value="<?php echo $address?>"/>
                                                     
                                                 </div>
 
@@ -286,7 +307,7 @@
 
                                                 <div class="form-outline">
                                                     <label class="form-label" for="phoneNumber">Số điện thoại</label> <span class="error"> * <?php echo $phoneErr;?></span> 
-                                                    <input type="tel" name="phone" class="form-control form-control-lg" />
+                                                    <input type="tel" name="phone" class="form-control form-control-lg" value="<?php echo $phone?>"/>
                                                 </div>
 
                                             </div>
@@ -294,12 +315,12 @@
 
                                         <div class="row">
                                             <div class="col-md-4 mb-4 pb-2">
-                                                <label class="form-label select-label">Phòng ban</label> <span class="error"> * </span> 
+                                                <label class="form-label select-label">Chức vụ</label> <span class="error"> * </span> 
                                                 <select class="form-select form-control-lg" name="select_department">
-                                                    
-                                                    <?php
+                                                    <option value="1" disabled>Chức vụ</option>
+                                                    <?php 
 
-                                                        $query1 = "SELECT * FROM chuc_vu_tbl";
+                                                        $query1 = "select * from chuc_vu_tbl";
 
                                                         $department_arr = $con->query($query1);
 
@@ -315,7 +336,7 @@
 
                                             <div class="col-md-4 mb-4 pb-2">
                                             <label for="birthdayDate" class="form-label">Ngày vào làm</label> <span class="error"> * </span> 
-                                                    <input type="date" class="form-control form-control-lg" name='join' />
+                                                    <input type="date" class="form-control form-control-lg" name='join' value="<?php echo $join?>"/>
 
                                             </div>
 
@@ -328,7 +349,7 @@
                                         </div>
 
                                         <div class="mt-4 pt-2">
-                                            <input class="btn btn-success btn-lg float-end" type="submit" name="submit" value="Thêm mới" />
+                                            <input class="btn btn-success btn-lg float-end" type="submit" name="submit" value="Cập nhật" />
                                         </div>
                                     
                                     </form>
