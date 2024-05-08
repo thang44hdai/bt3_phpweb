@@ -128,7 +128,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                     </div>
 
                     <div class="col py-3 main">
-                        <h1>Thêm Chức Vụ</h1>
+                        <h1>Thêm Phòng Ban</h1>
 
                         <hr style="border: 2px solid blue">
                         <br><br>
@@ -136,9 +136,9 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                         <div class="card">
                             <div class="card-body">
                                 <form method="post">
-                                    <label class="form-label">Tên Chức Vụ</label>
+                                    <label class="form-label">Tên phòng ban</label>
                                     <input class="form-control form-control-lg" type="text" name="department_name"
-                                        placeholder="Tên chức vụ">
+                                        placeholder="Tên phòng ban">
                                     <span class="error">* <?php echo $error ?></span>
                                     <br>
                                     <input type="submit" name="submit" class="btn btn-lg btn-success float-end"

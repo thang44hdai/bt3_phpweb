@@ -3,7 +3,7 @@
     session_start();
     require_once('connect_db.php');
 
-    $nameErr = $emailErr = $genderErr = $addressErr = $phoneErr= "";
+    $nameErr = $emailErr = $genderErr = $addressErr = $phoneErr=$avatarErr=$joinErr=$birthErr= "";
     $name = $email = $gender = $birth = $address = $phone = $department = $join = $avatar = "";
 
     function test_input($data) {
@@ -37,9 +37,7 @@
             $nameErr = "Chưa nhập tên";
         } else {
             $name = test_input($_POST["name"]);
-            if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-                $nameErr = "Chỉ bao gồm chữ cái và khoảng trắng";
-            }
+        
         }
         
         if (empty($_POST["email"])) {
@@ -59,7 +57,7 @@
         }
     
         if (empty($_POST["birth"])) {
-            $birth = "";
+            $birthErr = "Chưa chọn ngày sinh";
         } else {
             $birth = test_input($_POST["birth"]);
         }
@@ -86,13 +84,13 @@
         }
     
         if (empty($_POST["join"])) {
-            $join = "";
+            $joinErr = "Vui lòng chọn ngày vào làm";
         } else {
             $join = test_input($_POST["join"]);
         }
     
         if (empty($_POST["avatar"])) {
-            $avatar = "";
+            $avatarArr = "default_avatar.svg";
         } else {
             $avatar = test_input($_POST["avatar"]);
         }
@@ -157,7 +155,7 @@
                                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Trang chủ</span>
                                         </a>
                                     </li>
-                                
+
                                     <li class="nav-item side-item dropdown">
                                     <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#"
                                         id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -242,7 +240,7 @@
                                             <div class="col-md-6 mb-4">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="firstName">Họ và tên</label> <span class="error"> * <?php echo $nameErr;?></span> 
+                                                    <label class="form-label" for="firstName">Họ và tên</label> <span class="error text-danger"> * <?php echo $nameErr;?></span> 
                                                     <input type="text" name="name" class="form-control form-control-lg" value="<?php echo $name?>"/>
                                                 </div>
 
@@ -250,9 +248,9 @@
                                             <div class="col-md-6 mb-4">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="lastName">Email</label> <span class="error"> * <?php echo $emailErr;?></span> 
+                                                    <label class="form-label" for="lastName">Email</label> <span class="error text-danger"> * <?php echo $emailErr;?></span> 
                                                     <input type="text" name="email" class="form-control form-control-lg" value="<?php echo $email?>"/>
-                                                    
+
                                                 </div>
 
                                             </div>
@@ -262,15 +260,15 @@
                                             <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                                 <div class="form-outline datepicker w-100">
-                                                    <label for="birthdayDate" class="form-label">Ngày sinh</label> <span class="error"> * </span> 
+                                                    <label for="birthdayDate" class="form-label">Ngày sinh</label> <span class="error text-danger"> * <?php echo $birthErr;?></span> 
                                                     <input type="date" class="form-control form-control-lg" name="birth" value="<?php echo $birth?>"/>
-                                                    
+
                                                 </div>
 
                                             </div>
                                             <div class="col-md-6 mb-4">
 
-                                                <p class="mb-2 pb-1">Giới tính: </p> <span class="error"> * </span>
+                                                <p class="mb-2 pb-1">Giới tính: </p> <span class="error text-danger"> * </span>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="gender" id="maleGender"
@@ -297,16 +295,15 @@
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="emailAddress">Địa chỉ</label> <span class="error"> * <?php echo $addressErr;?></span> 
-                                                    <input type="text" name="address" class="form-control form-control-lg" value="<?php echo $address?>"/>
-                                                    
+                                                    <label class="form-label" for="emailAddress">Địa chỉ</label> <span class="error text-danger"> * <?php echo $addressErr;?></span> 
+                                                    <input type="text" name="address" class="form-control form-control-lg" value="<?php echo $address?>"/>                                                 
                                                 </div>
 
                                             </div>
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="phoneNumber">Số điện thoại</label> <span class="error"> * <?php echo $phoneErr;?></span> 
+                                                    <label class="form-label" for="phoneNumber">Số điện thoại</label> <span class="error text-danger"> * <?php echo $phoneErr;?></span> 
                                                     <input type="tel" name="phone" class="form-control form-control-lg" value="<?php echo $phone?>"/>
                                                 </div>
 
@@ -315,15 +312,12 @@
 
                                         <div class="row">
                                             <div class="col-md-4 mb-4 pb-2">
-                                                <label class="form-label select-label">Chức vụ</label> <span class="error"> * </span> 
+                                                <label class="form-label select-label">Phòng ban</label> <span class="error text-danger"> * </span> 
                                                 <select class="form-select form-control-lg" name="select_department">
-                                                    <option value="1" disabled>Chức vụ</option>
-                                                    <?php 
-
-                                                        $query1 = "select * from chuc_vu_tbl";
-
+                                                    <option value="1" disabled>Phòng ban</option>
+                                                    <?php
+                                                        $query1 = "SELECT * FROM chuc_vu_tbl";
                                                         $department_arr = $con->query($query1);
-
                                                         while($row = $department_arr->fetch_assoc()) {
                                                             ?>
                                                             <option value=<?php echo $row['id_cv']; ?> ?><?php echo $row['chuc_vu']?></option>
@@ -335,14 +329,11 @@
                                             </div>
 
                                             <div class="col-md-4 mb-4 pb-2">
-                                            <label for="birthdayDate" class="form-label">Ngày vào làm</label> <span class="error"> * </span> 
+                                            <label for="birthdayDate" class="form-label">Ngày vào làm</label> <span class="error text-danger"> * <?php echo $joinErr;?> </span>
                                                     <input type="date" class="form-control form-control-lg" name='join' value="<?php echo $join?>"/>
-
                                             </div>
-
-
                                             <div class="col-md-4 mb-4 pb-2">
-                                                <label class="form-label" for="customFile">Avatar</label> <span class="error"> * </span> 
+                                                <label class="form-label" for="customFile">Avatar</label> <span class="error text-danger"> *<?php echo $avatarErr;?></span>
                                                 <input type="file" class="form-control" name="avatar" />
 
                                             </div>
@@ -351,7 +342,6 @@
                                         <div class="mt-4 pt-2">
                                             <input class="btn btn-success btn-lg float-end" type="submit" name="submit" value="Cập nhật" />
                                         </div>
-                                    
                                     </form>
                                 </div>
                             </div>
@@ -359,11 +349,9 @@
                         </div>
 
                     </div>
-                        
                     </div>
                 </div>
             </div>
-        
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         </body>
         </html>

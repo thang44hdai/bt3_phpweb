@@ -3,7 +3,7 @@
     session_start();
     require('connect_db.php');
 
-    $nameErr = $emailErr = $genderErr = $addressErr = $phoneErr= "";
+    $nameErr = $emailErr = $genderErr = $addressErr = $phoneErr=$avatarErr=$joinErr=$birthErr= "";
     $name = $email = $gender = $birth = $address = $phone = $department = $join = $avatar = "";
 
     function test_input($data) {
@@ -18,9 +18,6 @@
             $nameErr = "Chưa nhập tên";
         } else {
             $name = test_input($_POST["name"]);
-            if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-                $nameErr = "Chỉ bao gồm chữ cái và khoảng trắng";
-            }
         }
         
         if (empty($_POST["email"])) {
@@ -40,7 +37,7 @@
         }
     
         if (empty($_POST["birth"])) {
-            $birth = "";
+            $birthErr = "Chưa chọn ngày sinh";
         } else {
             $birth = test_input($_POST["birth"]);
         }
@@ -67,13 +64,13 @@
         }
     
         if (empty($_POST["join"])) {
-            $join = "";
+            $joinErr = "Vui lòng chọn ngày vào làm";
         } else {
             $join = test_input($_POST["join"]);
         }
     
         if (empty($_POST["avatar"])) {
-            $avatar = "";
+            $avatarArr = "default_avatar.svg";
         } else {
             $avatar = test_input($_POST["avatar"]);
         }
@@ -88,7 +85,7 @@
     
     if (isset($_POST['submit'])) {
         if (!empty($name) && !empty($email)  && !empty($avatar) && !empty($birth) && !empty($gender) && !empty($address) && !empty($phone) && !empty($department) && !empty($join) && checkErr($nameErr, $emailErr, $genderErr, $addressErr, $phoneErr)) {
-            $query2 = "INSERT INTO nhan_vien_tbl(id, ten, ngay_sinh, gioi_tinh, so_dien_thoai, email, dia_chi, id_chuc_vu, ngay_vao_lam, ngay_them, anh, ngay_cap_nhat) 
+            $query2 = "INSERT INTO nhan_vien_tbl(id_nv, ten, ngay_sinh, gioi_tinh, so_dien_thoai, email, dia_chi, id_chuc_vu, ngay_vao_lam, ngay_them, anh, ngay_cap_nhat) 
             VALUES (NULL,'$name','$birth','$gender','$phone','$email','$address','$department','$join',NULL,'$avatar', '$join');";
 
             $con->query($query2);
@@ -121,6 +118,7 @@
 
             <!-- Side Bar -->
             <div class="side_bar">
+                
                 <div class="container-fluid">
                     <div class="row flex-nowrap">
                         <div class="col-auto col-md-3 col-xl-2 col-2 bg-dark">
@@ -221,7 +219,7 @@
                                             <div class="col-md-6 mb-4">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="firstName">Họ và tên</label> <span class="error"> * <?php echo $nameErr;?></span> 
+                                                    <label class="form-label" for="firstName">Họ và tên</label> <span class="error text-danger"> * <?php echo $nameErr;?></span> 
                                                     <input type="text" name="name" class="form-control form-control-lg" />
                                                 </div>
 
@@ -229,7 +227,7 @@
                                             <div class="col-md-6 mb-4">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="lastName">Email</label> <span class="error"> * <?php echo $emailErr;?></span> 
+                                                    <label class="form-label" for="lastName">Email</label> <span class="error text-danger"> * <?php echo $emailErr;?></span> 
                                                     <input type="text" name="email" class="form-control form-control-lg" />
                                                     
                                                 </div>
@@ -241,7 +239,7 @@
                                             <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                                 <div class="form-outline datepicker w-100">
-                                                    <label for="birthdayDate" class="form-label">Ngày sinh</label> <span class="error"> * </span> 
+                                                    <label for="birthdayDate" class="form-label">Ngày sinh</label> <span class="error text-danger"> * <?php echo $birthErr  ?></span> 
                                                     <input type="date" class="form-control form-control-lg" name="birth" />
                                                     
                                                 </div>
@@ -249,7 +247,7 @@
                                             </div>
                                             <div class="col-md-6 mb-4">
 
-                                                <p class="mb-2 pb-1">Giới tính: </p> <span class="error"> * </span>
+                                                <p class="mb-2 pb-1">Giới tính: </p> <span class="error text-danger"> * </span>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="gender" id="maleGender"
@@ -276,7 +274,7 @@
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="emailAddress">Địa chỉ</label> <span class="error"> * <?php echo $addressErr;?></span> 
+                                                    <label class="form-label" for="emailAddress">Địa chỉ</label> <span class="error text-danger"> * <?php echo $addressErr;?></span> 
                                                     <input type="text" name="address" class="form-control form-control-lg" />
                                                     
                                                 </div>
@@ -285,7 +283,7 @@
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="phoneNumber">Số điện thoại</label> <span class="error"> * <?php echo $phoneErr;?></span> 
+                                                    <label class="form-label" for="phoneNumber">Số điện thoại</label> <span class="error text-danger"> * <?php echo $phoneErr;?></span> 
                                                     <input type="tel" name="phone" class="form-control form-control-lg" />
                                                 </div>
 
@@ -294,7 +292,7 @@
 
                                         <div class="row">
                                             <div class="col-md-4 mb-4 pb-2">
-                                                <label class="form-label select-label">Phòng ban</label> <span class="error"> * </span> 
+                                                <label class="form-label select-label">Phòng ban</label> <span class="error text-danger"> * </span> 
                                                 <select class="form-select form-control-lg" name="select_department">
                                                     
                                                     <?php
@@ -314,14 +312,14 @@
                                             </div>
 
                                             <div class="col-md-4 mb-4 pb-2">
-                                            <label for="birthdayDate" class="form-label">Ngày vào làm</label> <span class="error"> * </span> 
+                                            <label for="birthdayDate" class="form-label">Ngày vào làm</label> <span class="error text-danger"> * <?php echo $joinErr?> </span> 
                                                     <input type="date" class="form-control form-control-lg" name='join' />
 
                                             </div>
 
 
                                             <div class="col-md-4 mb-4 pb-2">
-                                                <label class="form-label" for="customFile">Avatar</label> <span class="error"> * </span> 
+                                                <label class="form-label" for="customFile">Avatar</label> <span class="error text-danger"> * </span> 
                                                 <input type="file" class="form-control" name="avatar" />
 
                                             </div>

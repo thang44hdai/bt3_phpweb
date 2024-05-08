@@ -22,6 +22,7 @@ if (isset($_POST['submit'])) {
 }
 
 
+
 if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['logged_in']) {
     ?>
     <!DOCTYPE html>
