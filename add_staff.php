@@ -12,14 +12,14 @@
         $data = htmlspecialchars($data);
         return $data;
     }
-    
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["name"])) {
             $nameErr = "Chưa nhập tên";
         } else {
             $name = test_input($_POST["name"]);
         }
-        
+
         if (empty($_POST["email"])) {
             $emailErr = "Chưa nhập emal";
         } else {
@@ -28,26 +28,26 @@
                 $emailErr = "Sai định dạng email";
             }
         }
-            
+
         if (empty($_POST["address"])) {
             $address = "";
             $addressErr = "Chưa nhập địa chỉ";
         } else {
             $address = test_input($_POST["address"]);
         }
-    
+
         if (empty($_POST["birth"])) {
             $birthErr = "Chưa chọn ngày sinh";
         } else {
             $birth = test_input($_POST["birth"]);
         }
-    
+
         if (empty($_POST["gender"])) {
             $genderErr = "Chưa chọn giới tính";
         } else {
             $gender = $_POST["gender"];
         }
-    
+
         if (empty($_POST["phone"])) {
             $phoneErr = "Chưa nhập số điện thoại";
         } else {
@@ -56,19 +56,19 @@
                 $phoneErr = "Chỉ bao gồm chữ số";
             }
         }
-    
+
         if (empty($_POST["select_department"])) {
             $department = "";
         } else {
             $department = test_input($_POST["select_department"]);
         }
-    
+
         if (empty($_POST["join"])) {
             $joinErr = "Vui lòng chọn ngày vào làm";
         } else {
             $join = test_input($_POST["join"]);
         }
-    
+
         if (empty($_POST["avatar"])) {
             $avatarArr = "default_avatar.svg";
         } else {
@@ -82,10 +82,10 @@
         }
         return true;
     }
-    
+
     if (isset($_POST['submit'])) {
         if (!empty($name) && !empty($email)  && !empty($avatar) && !empty($birth) && !empty($gender) && !empty($address) && !empty($phone) && !empty($department) && !empty($join) && checkErr($nameErr, $emailErr, $genderErr, $addressErr, $phoneErr)) {
-            $query2 = "INSERT INTO nhan_vien_tbl(id_nv, ten, ngay_sinh, gioi_tinh, so_dien_thoai, email, dia_chi, id_chuc_vu, ngay_vao_lam, ngay_them, anh, ngay_cap_nhat) 
+            $query2 = "INSERT INTO nhan_vien_tbl(id_nv, ten, ngay_sinh, gioi_tinh, so_dien_thoai, email, dia_chi, id_chuc_vu, ngay_vao_lam, ngay_them, anh, ngay_cap_nhat)
             VALUES (NULL,'$name','$birth','$gender','$phone','$email','$address','$department','$join',NULL,'$avatar', '$join');";
 
             $con->query($query2);
@@ -105,7 +105,7 @@
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
             <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="\assets\styles.css">
+            <link rel="stylesheet" href="main.css">
             <title>Home Page</title>
         </head>
         <body>
@@ -118,89 +118,10 @@
 
             <!-- Side Bar -->
             <div class="side_bar">
-                
+
                 <div class="container-fluid">
                     <div class="row flex-nowrap">
-                        <div class="col-auto col-md-3 col-xl-2 col-2 bg-dark">
-                            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-
-                                <div class="title">
-                                    <p>Hệ thống quản lý nhân viên</p>
-                                </div>
-                                <hr style="border: 2px solid white; min-width: 100%">
-                                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="min-width: 100%">
-                                    <li class="nav-item side-item">
-                                        <a href="home.php" class="nav-link align-middle px-0 text-white">
-                                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Trang chủ</span>
-                                        </a>
-                                    </li>
-                                
-                                    <li class="nav-item side-item dropdown">
-                                    <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#"
-                                        id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fs-4 bi bi-table"></i> <span class="ms-1 d-none d-sm-inline">Phòng
-                                            ban</span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="department.php">Xem Phòng ban</a></li>
-                                        <li><a class="dropdown-item" href="add_department.php">Thêm Phòng ban</a></li>
-                                        <!-- Các mục dropdown khác có thể thêm vào đây -->
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item side-item dropdown">
-                                    <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#"
-                                        id="navbarDropdownStaff" role="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fs-4 bi bi-people"></i> <span class="ms-1 d-none d-sm-inline">Nhân
-                                            viên</span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownStaff">
-                                        <li><a class="dropdown-item" href="staff.php">Xem Nhân viên</a></li>
-                                        <li><a class="dropdown-item" href="add_staff.php">Thêm Nhân viên</a></li>
-                                        <!-- Các mục dropdown khác có thể thêm vào đây -->
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item side-item dropdown">
-                                    <a class="nav-link dropdown-toggle px-0 align-middle text-white" href="#"
-                                        id="navbarDropdownSalary" role="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fs-4 bi bi-cash-coin"></i> <span
-                                            class="ms-1 d-none d-sm-inline">Lương</span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownSalary">
-                                        <li><a class="dropdown-item" href="salary.php">Xem Lương</a></li>
-                                        <li><a class="dropdown-item" href="add_salary.php">Thêm Lương</a></li>
-                                        <!-- Các mục dropdown khác có thể thêm vào đây -->
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item side-item">
-                                    <a href="leave.php" class="nav-link px-0 align-middle text-white">
-                                    <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline ">Nghỉ Phép</span> </a>
-                                </li>
-
-                                </ul>
-
-                                <hr style="border: 2px solid white; min-width: 100%">
-                                <div class="dropdown pb-4">
-                                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="\assets\img\default_avatar.svg" alt="hugenerd" width="50" height="50" class="rounded-circle">
-                                        <span class="d-none d-sm-inline mx-3">Admin</span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                                        <li><a class="dropdown-item" href="#">New project...</a></li>
-                                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    <?php echo file_get_contents("baseUI.html"); ?>
 
                         <div class="col py-3">
                             <h1>Nhân Viên</h1>
@@ -210,7 +131,7 @@
 
                             <div class="card card-registration">
 
-                                <div class="card-body">  
+                                <div class="card-body">
 
                                 <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Đăng ký nhân viên mới</h3>
                                     <form method="post">
@@ -219,7 +140,7 @@
                                             <div class="col-md-6 mb-4">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="firstName">Họ và tên</label> <span class="error text-danger"> * <?php echo $nameErr;?></span> 
+                                                    <label class="form-label" for="firstName">Họ và tên</label> <span class="error text-danger"> * <?php echo $nameErr;?></span>
                                                     <input type="text" name="name" class="form-control form-control-lg" />
                                                 </div>
 
@@ -227,9 +148,9 @@
                                             <div class="col-md-6 mb-4">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="lastName">Email</label> <span class="error text-danger"> * <?php echo $emailErr;?></span> 
+                                                    <label class="form-label" for="lastName">Email</label> <span class="error text-danger"> * <?php echo $emailErr;?></span>
                                                     <input type="text" name="email" class="form-control form-control-lg" />
-                                                    
+
                                                 </div>
 
                                             </div>
@@ -239,9 +160,9 @@
                                             <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                                 <div class="form-outline datepicker w-100">
-                                                    <label for="birthdayDate" class="form-label">Ngày sinh</label> <span class="error text-danger"> * <?php echo $birthErr  ?></span> 
+                                                    <label for="birthdayDate" class="form-label">Ngày sinh</label> <span class="error text-danger"> * <?php echo $birthErr  ?></span>
                                                     <input type="date" class="form-control form-control-lg" name="birth" />
-                                                    
+
                                                 </div>
 
                                             </div>
@@ -274,16 +195,16 @@
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="emailAddress">Địa chỉ</label> <span class="error text-danger"> * <?php echo $addressErr;?></span> 
+                                                    <label class="form-label" for="emailAddress">Địa chỉ</label> <span class="error text-danger"> * <?php echo $addressErr;?></span>
                                                     <input type="text" name="address" class="form-control form-control-lg" />
-                                                    
+
                                                 </div>
 
                                             </div>
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="phoneNumber">Số điện thoại</label> <span class="error text-danger"> * <?php echo $phoneErr;?></span> 
+                                                    <label class="form-label" for="phoneNumber">Số điện thoại</label> <span class="error text-danger"> * <?php echo $phoneErr;?></span>
                                                     <input type="tel" name="phone" class="form-control form-control-lg" />
                                                 </div>
 
@@ -292,9 +213,9 @@
 
                                         <div class="row">
                                             <div class="col-md-4 mb-4 pb-2">
-                                                <label class="form-label select-label">Phòng ban</label> <span class="error text-danger"> * </span> 
+                                                <label class="form-label select-label">Phòng ban</label> <span class="error text-danger"> * </span>
                                                 <select class="form-select form-control-lg" name="select_department">
-                                                    
+
                                                     <?php
 
                                                         $query1 = "SELECT * FROM chuc_vu_tbl";
@@ -312,14 +233,14 @@
                                             </div>
 
                                             <div class="col-md-4 mb-4 pb-2">
-                                            <label for="birthdayDate" class="form-label">Ngày vào làm</label> <span class="error text-danger"> * <?php echo $joinErr?> </span> 
+                                            <label for="birthdayDate" class="form-label">Ngày vào làm</label> <span class="error text-danger"> * <?php echo $joinErr?> </span>
                                                     <input type="date" class="form-control form-control-lg" name='join' />
 
                                             </div>
 
 
                                             <div class="col-md-4 mb-4 pb-2">
-                                                <label class="form-label" for="customFile">Avatar</label> <span class="error text-danger"> * </span> 
+                                                <label class="form-label" for="customFile">Avatar</label> <span class="error text-danger"> * </span>
                                                 <input type="file" class="form-control" name="avatar" />
 
                                             </div>
@@ -328,7 +249,7 @@
                                         <div class="mt-4 pt-2">
                                             <input class="btn btn-success btn-lg float-end" type="submit" name="submit" value="Thêm mới" />
                                         </div>
-                                    
+
                                     </form>
                                 </div>
                             </div>
@@ -336,16 +257,16 @@
                         </div>
 
                     </div>
-                        
+
                     </div>
                 </div>
             </div>
-        
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         </body>
         </html>
         <?php
-    }   
+    }
     else {
         header("Location: error.html");
         exit();

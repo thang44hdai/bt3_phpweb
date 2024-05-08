@@ -36,13 +36,13 @@
 }
 
 .title {
-  font-size: large !important;
-  font-weight: 600 !important;
+  font-size: larger !important;
+  font-weight: 1000 !important;
 }
 
 .dropdown-menu {
   width: 200px;
-  background-color: rgb(104, 38, 228);
+  background-color: white;
 }
 
 .item-center {
