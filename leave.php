@@ -144,26 +144,29 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                         $staff_result = $con->query($query);
 
                                         while ($row = $staff_result->fetch_assoc()) {
-                                            ?>
-                                            <tr>
-                                                <th scope="row"><?php echo $row['id_nhanvien']; ?></th>
-                                                <td><img src="<?php echo $row['anh']; ?>" alt="default avatar" height="50px"
-                                                        width="50px"></td>
-                                                <td><?php echo $row['ten']; ?></td>
-                                                <td><?php echo $row['ngay_sinh']; ?></td>
-                                                <td><?php echo $row['ly_do']; ?></td>
-                                                <td><?php echo $row['chi_tiet']; ?></td>
-                                                <td><?php echo $row['ngay_bat_dau']; ?></td>
-                                                <td><?php echo $row['ngay_ket_thuc']; ?></td>
-                                                <td>
-                                                    <a href="edit_staff.php?id=<?php echo $row['id_nv']; ?>"
-                                                        class="btn btn-success px-4 ">Chấp nhận</a>
-                                                    <a onclick="return confirm('Bạn có chắc muốn xoá nhân viên này không?');"
-                                                        href="delete_staff.php?id=<?php echo $row['id_nv']; ?>"
-                                                        class="btn btn-danger px-4">Xóa</a>
-                                                </td>
-                                            </tr>
-                                            <?php
+                                            if ($row['trang_thai'] == 0) {
+                                                ?>
+
+                                                <tr>
+                                                    <th scope="row"><?php echo $row['id_nhanvien']; ?></th>
+                                                    <td><img src="<?php echo $row['anh']; ?>" alt="default avatar" height="50px"
+                                                            width="50px"></td>
+                                                    <td><?php echo $row['ten']; ?></td>
+                                                    <td><?php echo $row['ngay_sinh']; ?></td>
+                                                    <td><?php echo $row['ly_do']; ?></td>
+                                                    <td><?php echo $row['chi_tiet']; ?></td>
+                                                    <td><?php echo $row['ngay_bat_dau']; ?></td>
+                                                    <td><?php echo $row['ngay_ket_thuc']; ?></td>
+                                                    <td>
+                                                        <a href="accept_leave.php?id=<?php echo $row['id']; ?>"
+                                                            class="btn btn-success px-4 ">Chấp nhận</a>
+                                                        <a onclick="return confirm('Bạn có chắc muốn xoá nhân viên này không?');"
+                                                            href="reject_leave.php?id=<?php echo $row['id']; ?>"
+                                                            class="btn btn-danger px-4">Từ chối</a>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
                                         }
                                         ?>
 

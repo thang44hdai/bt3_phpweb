@@ -4,9 +4,22 @@ session_start();
 
 require_once ('connect_db.php');
 
+$id = $_GET['id'];
 $id_nv = $date = "";
 $luong_co_ban = $phu_cap = $tong_luong = 0;
 $idErr = $cbErr = $pcErr = "";
+
+$query = "SELECT * FROM luong_tbl WHERE id_luong=$id";
+$salary_result = $con->query($query);
+
+if (mysqli_num_rows($salary_result) == 1) {
+    $salary = mysqli_fetch_assoc($salary_result);
+    $id_nv = $salary['id_nhanvien'];
+    $date = $salary['ngay_cap_nhat'];
+    $luong_co_ban = $salary['luong_co_ban'];
+    $phu_cap = $salary['phu_cap'];
+    $tong_luong = $salary['tong_luong'];
+}
 
 function test_input($data)
 {
@@ -63,8 +76,8 @@ function checkErr($idErr, $cbErr, $pcErr)
 
 if (isset($_POST['submit'])) {
     if (!empty($id_nv) && !empty($date) && !empty($luong_co_ban) && !empty($phu_cap) && !empty($tong_luong) && checkErr($idErr, $cbErr, $pcErr)) {
-        $query = "INSERT INTO luong_tbl(id_luong, id_nhanvien, luong_co_ban, phu_cap, tong_luong, ngay_them, ngay_cap_nhat) 
-            VALUES (NULL,'$id_nv','$luong_co_ban','$phu_cap','$tong_luong',NULL,'$date')";
+        $query = "UPDATE luong_tbl 
+            SET luong_co_ban='$luong_co_ban',phu_cap='$phu_cap',tong_luong='$tong_luong',ngay_cap_nhat='$date' WHERE id_luong=$id";
 
         $con->query($query);
 
@@ -164,7 +177,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                         <i class="fs-4 bi bi-person-x"></i> <span class="ms-1 d-none d-sm-inline ">Nghỉ
                                             Phép</span> </a>
                                 </li>
-
                             </ul>
 
                             <hr style="border: 2px solid white; min-width: 100%">
@@ -200,7 +212,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                             <div class="card-body">
 
-                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Thêm bảng lương mới</h3>
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Sửa bảng lương</h3>
                                 <form method="post">
 
                                     <div class="row">
@@ -209,7 +221,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                             <div class="form-outline">
                                                 <label class="form-label" for="firstName">ID Nhân Viên</label> <span
                                                     class="error text-danger"> * <?php echo $idErr; ?></span>
-                                                <input type="text" name="id_nv" class="form-control form-control-lg" />
+                                                <input type="text" name="id_nv" class="form-control form-control-lg"
+                                                    value="<?php echo $id_nv ?>" />
                                             </div>
 
                                         </div>
@@ -233,8 +246,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                                 <label class="form-label" for="emailAddress">Lương Cơ Bản</label> <span
                                                     class="error text-danger"> * <?php echo $cbErr; ?></span>
                                                 <input type="text" name="luong_co_ban" id="luong_co_ban"
-                                                    class="form-control form-control-lg"
-                                                    oninput="updateSalary(this.value)" />
+                                                    class="form-control form-control-lg" oninput="updateSalary(this.value)"
+                                                    value="<?php echo $luong_co_ban ?>" />
 
                                             </div>
 
@@ -245,8 +258,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                                 <label class="form-label" for="phoneNumber">Phụ Cấp</label> <span
                                                     class="error text-danger"> * <?php echo $pcErr; ?></span>
                                                 <input type="tel" name="phu_cap" id="phu_cap"
-                                                    class="form-control form-control-lg"
-                                                    oninput="updateSalary(this.value )" />
+                                                    class="form-control form-control-lg" oninput="updateSalary(this.value )"
+                                                    value="<?php echo $phu_cap ?>" />
                                             </div>
 
                                         </div>
@@ -257,7 +270,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                                 <label class="form-label" for="phoneNumber">Tổng Lương</label> <span
                                                     class="error text-danger"> * </span>
                                                 <input type="tel" name="tong_luong" class="form-control form-control-lg"
-                                                    id="tong_luong" />
+                                                    id="tong_luong" value="<?php echo $tong_luong ?>" />
                                             </div>
 
                                         </div>
@@ -265,7 +278,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                                     <div class="mt-4 pt-2">
                                         <input class="btn btn-success btn-lg float-end" type="submit" name="submit"
-                                            value="Thêm mới" />
+                                            value="Cập nhật" />
                                     </div>
 
                                 </form>
@@ -280,8 +293,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
         </div>
         </div>
 
-
-
         <script>
             function updateSalary(val) {
                 console.log(val);
@@ -289,7 +300,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                 let pc = document.getElementById('phu_cap').value === '' ? 0 : document.getElementById('phu_cap').value;
                 document.getElementById('tong_luong').value = parseInt(cb) + parseInt(pc);
             }
-
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>

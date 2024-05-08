@@ -158,11 +158,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                                 <td><?php echo $row['phu_cap']; ?>đ</td>
                                                 <td><?php echo $row['tong_luong']; ?>đ</td>
                                                 <td>
-                                                    <a href="edit_salary.php?id=<?php echo $row['id_nv']; ?>"
+                                                    <a href="edit_salary.php?id=<?php echo $row['id_luong']; ?>"
                                                         class="btn btn-success px-4">Sửa</a>
-                                                    <a onclick="return confirm('Bạn có chắc muốn xoá bảng lương này không?');"
-                                                        href="delete_staff.php?id=<?php echo $row['id_nv']; ?>"
-                                                        class="btn btn-danger px-4">Xoá</a>
                                                 </td>
                                             </tr>
                                             <?php
