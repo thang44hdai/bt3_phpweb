@@ -7,7 +7,7 @@ require_once ('connect_db.php');
 $id = $_GET['id'];
 $id_nv = $date = "";
 $luong_co_ban = $phu_cap = $tong_luong = 0;
-$idErr = $cbErr = $pcErr = "";
+$idErr = $cbErr = $pcErr = $dateErr = "";
 
 $query = "SELECT * FROM luong_tbl WHERE id_luong=$id";
 $salary_result = $con->query($query);
@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($_POST["date"])) {
+        $dateErr = "Vui lòng chọn ngày";
         $date = "";
     } else {
         $date = test_input($_POST["date"]);
@@ -76,7 +77,7 @@ function checkErr($idErr, $cbErr, $pcErr)
 
 if (isset($_POST['submit'])) {
     if (!empty($id_nv) && !empty($date) && !empty($luong_co_ban) && !empty($phu_cap) && !empty($tong_luong) && checkErr($idErr, $cbErr, $pcErr)) {
-        $query = "UPDATE luong_tbl 
+        $query = "UPDATE luong_tbl
             SET luong_co_ban='$luong_co_ban',phu_cap='$phu_cap',tong_luong='$tong_luong',ngay_cap_nhat='$date' WHERE id_luong=$id";
 
         $con->query($query);
@@ -145,7 +146,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                                             <div class="form-outline datepicker w-100">
                                                 <label for="birthdayDate" class="form-label">Ngày Cập Nhật</label> <span
-                                                    class="error text-danger"> * </span>
+                                                    class="error text-danger"> *<?php echo $dateErr ?></span>
                                                 <input type="date" class="form-control form-control-lg" name="date" />
 
                                             </div>

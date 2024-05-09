@@ -3,6 +3,22 @@
 session_start();
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['logged_in']) {
+
+    if (isset($_GET['sort'])) {
+        // Lấy cột muốn sắp xếp và hướng sắp xếp từ yêu cầu
+        $sortColumn = $_GET['sort'];
+        $sortDirection = 'ASC';
+
+        require_once ('connect_db.php');
+        $query = "SELECT * FROM nhan_vien_tbl inner join chuc_vu_tbl on nhan_vien_tbl.id_chuc_vu=chuc_vu_tbl.id_cv ORDER BY $sortColumn $sortDirection";
+        $staff_result = $con->query($query);
+    } else {
+        // Truy vấn cơ sở dữ liệu mặc định
+        require_once ('connect_db.php');
+        $query = "SELECT * FROM nhan_vien_tbl inner join chuc_vu_tbl on nhan_vien_tbl.id_chuc_vu=chuc_vu_tbl.id_cv";
+        $staff_result = $con->query($query);
+    }
+
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -37,10 +53,25 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                         <hr style="border: 2px solid blue">
                         <br>
 
-
                         <div class="card">
-
-                            <div class="card-body">
+                            <div class="position-relative" style="z-index: 1;">
+                                <div class="position-absolute top-0 end-0 mt-2 me-5 mb-5">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Sắp xếp
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item" href="?sort=id_nv">Mặc định</a></li>
+                                            <li><a class="dropdown-item" href="?sort=ten">Họ tên</a></li>
+                                            <li><a class="dropdown-item" href="?sort=ngay_sinh">Ngày sinh</a></li>
+                                            <li><a class="dropdown-item" href="?sort=ngay_vao_lam">Ngày vào làm</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body mt-5">
 
                                 <table id="staff_table" class="table table-striped table-hover">
                                     <thead style="position: sticky; top: 0; ">
@@ -61,11 +92,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                                     <tbody>
                                         <?php
-                                        require_once ('connect_db.php');
-
-                                        $query = "SELECT * FROM nhan_vien_tbl inner join chuc_vu_tbl on nhan_vien_tbl.id_chuc_vu=chuc_vu_tbl.id_cv";
-                                        $staff_result = $con->query($query);
-
+                                        // require_once ('connect_db.php');
+                                    
+                                        // $query = "SELECT * FROM nhan_vien_tbl inner join chuc_vu_tbl on nhan_vien_tbl.id_chuc_vu=chuc_vu_tbl.id_cv";
+                                        // $staff_result = $con->query($query);
+                                    
                                         while ($row = $staff_result->fetch_assoc()) {
                                             ?>
                                             <tr>

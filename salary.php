@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['logged_in']) {
-    // Xử lý yêu cầu sort
+
     if (isset($_GET['sort'])) {
         // Lấy cột muốn sắp xếp và hướng sắp xếp từ yêu cầu
         $sortColumn = $_GET['sort'];
@@ -48,8 +48,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                         <br>
                         <div class="card">
                             <div class="position-relative" style="z-index: 1;">
-                                <!-- Thêm style="z-index: 1;" để đảm bảo nằm phía trên -->
-                                <div class="position-absolute top-0 end-0 mt-2 me-2 mb-5">
+                                <div class="position-absolute top-0 end-0 mt-2 me-5 mb-5">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,7 +68,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                             </div>
                             <div class="card-body mt-5">
                                 <table class="table table-striped table-hover">
-                                    <thead style="position: sticky; top: 0;">
+                                    <thead style="position: sticky; top: 1;">
                                         <tr>
                                             <th scope="col">Id</th>
                                             <th scope="col">Avatar</th>
