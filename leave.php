@@ -24,27 +24,24 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                     <?php echo file_get_contents("baseUI.html"); ?>
 
                     <div class="col py-3">
-                        <h1>Nghỉ phép</h1>
+                        <h1 class="titlepage"> Nghỉ phép </h1>
 
                         <hr style="border: 2px solid blue">
                         <br>
-
                         <div class="card">
-
                             <div class="card-body">
-
-                                <table id="staff_table" class="table table-striped table-hover">
+                                <table id="leave_table" class="table table-striped table-hover">
                                     <thead style="position: sticky; top: 0; ">
                                         <tr>
-                                            <th scope="col">Id</th>
-                                            <th scope="col">Avatar</th>
-                                            <th scope="col">Tên</th>
-                                            <th scope="col">Ngày sinh</th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Họ và tên </th>
                                             <th scope="col">Lí do</th>
                                             <th scope="col">Chi tiết</th>
-                                            <th scope="col">Ngày xin nghỉ</th>
-                                            <th scope="col">Ngày trở lại</th>
-                                            <th scope="col">Thao Tác</th>
+                                            <th scope="col">Ngày bắt đầu</th>
+                                            <th scope="col">Ngày kết thúc</th>
+                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col">Thao tác</th>
+
                                         </tr>
                                     </thead>
 
@@ -52,61 +49,115 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                         <?php
                                         require_once ('connect_db.php');
 
-                                        $query = "SELECT * FROM nghi_phep inner join nhan_vien_tbl on nghi_phep.id_nhanvien=nhan_vien_tbl.id_nv";
-                                        $staff_result = $con->query($query);
+                                        $query1 = "SELECT * from nghi_phep inner join nhan_vien_tbl on nghi_phep.id_nhanvien=nhan_vien_tbl.id_nv order by ngay_bat_dau";
+                                        $staff_result = $con->query($query1);
 
                                         while ($row = $staff_result->fetch_assoc()) {
-                                            if ($row['trang_thai'] == 0) {
-                                                ?>
+                                            ?>
+                                            <tr>
+                                                <th scope="row"><?php echo $row['id_nhanvien']; ?></th>
+                                                <td><?php echo $row['ten']; ?></td>
+                                                <td><?php echo $row['ly_do']; ?></td>
+                                                <td><?php echo $row['chi_tiet']; ?></td>
+                                                <td><?php echo $row['ngay_bat_dau']; ?></td>
+                                                <td><?php echo $row['ngay_ket_thuc']; ?></td>
 
-                                                <tr>
-                                                    <th scope="row"><?php echo $row['id_nhanvien']; ?></th>
-                                                    <td><img src="<?php echo $row['anh']; ?>" alt="default avatar" height="50px"
-                                                            width="50px"></td>
-                                                    <td><?php echo $row['ten']; ?></td>
-                                                    <td><?php echo $row['ngay_sinh']; ?></td>
-                                                    <td><?php echo $row['ly_do']; ?></td>
-                                                    <td><?php echo $row['chi_tiet']; ?></td>
-                                                    <td><?php echo $row['ngay_bat_dau']; ?></td>
-                                                    <td><?php echo $row['ngay_ket_thuc']; ?></td>
-                                                    <td>
-                                                        <a href="accept_leave.php?id=<?php echo $row['id']; ?>"
-                                                            class="btn btn-success px-4 ">Chấp nhận</a>
-                                                        <a href="reject_leave.php?id=<?php echo $row['id']; ?>"
-                                                            class="btn btn-danger px-4">Từ chối</a>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                            }
+                                                <td class="leave_status">
+                                                    <?php
+                                                    if ($row['trang_thai'] == 0) {
+                                                        echo "Chưa được duyệt";
+                                                    } elseif ($row['trang_thai'] == 1) {
+                                                        echo "Đã duyệt";
+                                                    } else {
+                                                        echo "Trạng thái không xác định";
+                                                    }
+                                                    ?>
+                                                </td>
+
+                                                <td>
+                                                    <?php
+                                                    if ($row['trang_thai'] == 0) {
+                                                        ?>
+                                                        <button class="btn btn-success px-4 confirm_leave"
+                                                            data-id="<?php echo $row['id']; ?>">Duyệt</button>
+                                                        <?php
+                                                    } elseif ($row['trang_thai'] == 1) {
+                                                        ?>
+                                                        <button class="btn btn-danger px-4 reject_leave"
+                                                            data-id="<?php echo $row['id']; ?>">Hủy</button>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </td>
+
+                                            </tr>
+                                            <?php
                                         }
                                         ?>
 
                                     </tbody>
-
-                                    <script>
-                                        $(document).ready(function () {
-                                            new DataTable('#staff_table', {
-                                                language: {
-                                                    info: 'Trang _PAGE_/_PAGES_',
-                                                    infoEmpty: 'Không có dữ liệu',
-                                                    infoFiltered: '(Lọc từ _MAX_ item)',
-                                                    lengthMenu: 'Hiển thị _MENU_ item / trang',
-                                                    zeroRecords: 'Không có item tương ứng',
-                                                    search: 'Tìm kiếm'
-                                                }
-                                            });
-                                        });
-                                    </script>
-
                                 </table>
                             </div>
                         </div>
-
                     </div>
-
-
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        function confirmLeave(e) {
+                            e.preventDefault();
+                            var leaveId = $(this).data('id');
+                            var button = $(this);
+                            $.ajax({
+                                url: 'accept_leave.php',
+                                type: 'POST',
+                                data: {
+                                    id: leaveId
+                                },
+                                success: function (response) {
+                                    button.removeClass('btn-success').addClass('btn-danger').text('Hủy');
+                                    button.closest('tr').find('.leave_status').text('Đã duyệt');
+                                    button.off('click').on('click', rejectLeave);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            });
+                        }
+                        function rejectLeave(e) {
+                            e.preventDefault();
+                            var leaveId = $(this).data('id');
+                            var button = $(this);
+
+                            $.ajax({
+                                url: 'reject_leave.php',
+                                type: 'POST',
+                                data: {
+                                    id: leaveId
+                                },
+                                success: function (response) {
+                                    button.removeClass('btn-danger').addClass('btn-success').text('Duyệt');
+                                    button.closest('tr').find('.leave_status').text('Chưa được duyệt');
+                                    button.off('click').on('click', confirmLeave);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            });
+                        }
+                        $('.confirm_leave').on('click', confirmLeave);
+                        $('.reject_leave').on('click', rejectLeave);
+                    });
+
+
+
+                </script>
+
+
+
             </div>
+        </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
