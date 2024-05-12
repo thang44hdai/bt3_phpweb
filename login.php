@@ -19,7 +19,7 @@
 
                         <?php
                         if (isset($_GET['error'])) { ?>
-                            <p class="error"><?php echo $_GET['error']; ?></p>
+                            <p class="error text-danger">*<?php echo $_GET['error']; ?></p>
                             <?php
                         } ?>
 
@@ -99,12 +99,18 @@
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             if ($row['username'] == $username && $row['password'] == $password) {
-                echo "Logged In";
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['user_type'] = $row['user_type'];
-                $_SESSION['logged_in'] = true;
-                header("Location: home.php");
-                exit();
+                if ($row['user_type'] == 1) {
+                    echo "Logged In";
+                    $_SESSION['username'] = $row['username'];
+                    $_SESSION['user_type'] = $row['user_type'];
+                    $_SESSION['logged_in'] = true;
+                    header("Location: home.php");
+                    exit();
+                } else {
+                    header("Location: login.php?error=Trang này chỉ dùng cho admin");
+                    exit();
+                }
+
             }
         } else {
             header("Location: login.php?error=Tài khoản hoặc mật khẩu chưa đúng");

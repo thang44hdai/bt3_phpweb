@@ -3,6 +3,21 @@
 session_start();
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['logged_in']) {
+    if (isset($_GET['search'])) {
+        // Lấy từ khóa tìm kiếm
+        $search = $_GET['search'];
+
+        // Truy vấn cơ sở dữ liệu với điều kiện tìm kiếm
+        require_once ('connect_db.php');
+        $query = "SELECT * FROM chuc_vu_tbl WHERE chuc_vu LIKE '%$search%'";
+        $result = $con->query($query);
+    } else {
+        // Truy vấn cơ sở dữ liệu mặc định nếu không có từ khóa tìm kiếm
+        require_once ('connect_db.php');
+        $query = "SELECT * FROM chuc_vu_tbl";
+        $result = $con->query($query);
+
+    }
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -37,10 +52,20 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                         <hr style="border: 2px solid blue">
                         <br>
-
+                        <!-- Thêm ô nhập văn bản cho tìm kiếm -->
                         <div class="card">
                             <div class="card-body">
-
+                                <form class="mb-5" method="GET">
+                                    <div class="row justify-content-center align-items-center g-2">
+                                        <div class="col">
+                                            <input type="text" name="search" class="form-control"
+                                                value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+                                                placeholder="Tìm kiếm theo chức vụ">
+                                        </div>
+                                        <div class="col"> <button type="submit" class="btn btn-secondary">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <table id="department_table" class="table table-striped table-hover">
                                     <thead style="position: sticky; top: 0; ">
                                         <tr>
@@ -53,12 +78,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                                     <tbody>
                                         <?php
-                                        require_once ('connect_db.php');
-
-                                        $query = "SELECT * FROM chuc_vu_tbl";
-
-                                        $result = $con->query($query);
-
                                         while ($row = $result->fetch_assoc()) {
                                             if ($row['id_cv'] == 0) {
                                                 continue;
@@ -81,22 +100,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                                         ?>
 
                                     </tbody>
-
-                                    <script>
-                                        $(document).ready(function () {
-                                            new DataTable('#department_table', {
-                                                language: {
-                                                    info: 'Trang _PAGE_/_PAGES_',
-                                                    infoEmpty: 'Không có dữ liệu',
-                                                    infoFiltered: '(Lọc từ _MAX_ item)',
-                                                    lengthMenu: 'Hiển thị _MENU_ item / trang',
-                                                    zeroRecords: 'Không có item tương ứng',
-                                                    search: 'Tìm kiếm'
-                                                }
-                                            });
-                                        });
-                                    </script>
-
                                 </table>
                             </div>
                         </div>
