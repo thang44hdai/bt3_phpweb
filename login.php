@@ -46,7 +46,7 @@
                                         Ghi nhớ tài khoản
                                     </label>
                                 </div>
-                                <a href="#!" class="text-body">Quên mật khẩu?</a>
+                                <a href="forget_password.php" class="text-body">Quên mật khẩu?</a>
                             </div>
 
                             <div class="text-center text-lg-start mt-4 pt-2">
