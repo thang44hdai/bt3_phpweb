@@ -24,7 +24,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                     <?php echo file_get_contents("baseUI.html"); ?>
 
                     <div class="col py-3">
-                        <h1 class="titlepage"> Nghỉ phép </h1>
+                        <h1> Nghỉ phép </h1>
 
                         <hr style="border: 2px solid blue">
                         <br>
