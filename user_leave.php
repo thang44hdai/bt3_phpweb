@@ -3,6 +3,25 @@
 session_start();
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['logged_in']) {
+    $id = 0;
+    require_once ('connect_db.php');
+
+    $query1 = "SELECT * from nghi_phep inner join nhan_vien_tbl on nghi_phep.id_nhanvien=nhan_vien_tbl.id_nv
+                                        inner join login_tbl on login_tbl.id = nhan_vien_tbl.id_nv
+                                        where username = ?";
+    $query2 = "SELECT * from nghi_phep inner join nhan_vien_tbl on nghi_phep.id_nhanvien=nhan_vien_tbl.id_nv
+                                         inner join login_tbl on login_tbl.id = nhan_vien_tbl.id_nv
+                                         where username = ?";
+    $stmt = $con->prepare($query1);
+    $stmt->bind_param("s", $_SESSION['username']);
+    $stmt->execute();
+    $staff_result = $stmt->get_result();
+
+    $stmt = $con->prepare($query2);
+    $stmt->bind_param("s", $_SESSION['username']);
+    $stmt->execute();
+    $staff_result1 = $stmt->get_result();
+
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -22,12 +41,19 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
             <div class="container-fluid">
                 <div class="row flex-nowrap">
                     <?php echo file_get_contents("user_baseUI.html"); ?>
-
                     <div class="col py-3">
                         <h1> Nghỉ phép </h1>
 
                         <hr style="border: 2px solid blue">
                         <br>
+                        <?php
+                        while ($row = $staff_result1->fetch_assoc()) {
+                            $id = $row['id'];
+                        }
+                        ?>
+                        <a href="user_add_leave.php?id=<?php echo $id ?>" class="btn btn-lg btn-success">Thêm
+                            Mới</a>
+                        <br><br><br>
                         <div class="card">
                             <div class="card-body">
                                 <table id="leave_table" class="table table-striped table-hover">
@@ -47,15 +73,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                                     <tbody>
                                         <?php
-                                        require_once ('connect_db.php');
-
-                                        $query1 = "SELECT * from nghi_phep inner join nhan_vien_tbl on nghi_phep.id_nhanvien=nhan_vien_tbl.id_nv
-                                        inner join login_tbl on login_tbl.id = nhan_vien_tbl.id_nv
-                                        where username = ?";
-                                        $stmt = $con->prepare($query1);
-                                        $stmt->bind_param("s", $_SESSION['username']);
-                                        $stmt->execute();
-                                        $staff_result = $stmt->get_result();
 
                                         while ($row = $staff_result->fetch_assoc()) {
                                             ?>
