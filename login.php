@@ -99,15 +99,15 @@
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             if ($row['username'] == $username && $row['password'] == $password) {
+                $_SESSION['username'] = $row['username'];
+                $_SESSION['user_type'] = $row['user_type'];
+                $_SESSION['logged_in'] = true;
                 if ($row['user_type'] == 1) {
                     echo "Logged In";
-                    $_SESSION['username'] = $row['username'];
-                    $_SESSION['user_type'] = $row['user_type'];
-                    $_SESSION['logged_in'] = true;
                     header("Location: home.php");
                     exit();
                 } else {
-                    header("Location: login.php?error=Trang này chỉ dùng cho admin");
+                    header("Location: user_home.php");
                     exit();
                 }
 
