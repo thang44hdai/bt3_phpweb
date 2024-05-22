@@ -129,7 +129,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
                                     <div class="col-md-1 mb-4">
                                         <input class="btn btn-success btn-lg float-end" type="submit" name="submit"
-                                            value="Thêm mới" />
+                                            value="Nộp đơn" />
                                     </div>
 
                                 </form>

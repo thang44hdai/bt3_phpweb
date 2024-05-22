@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require_once ('connect_db.php');
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['logged_in']) {
     ?>
@@ -18,7 +19,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
     <body>
         <!-- Side Bar -->
-        <div class="side_bar fixed-top">
+        <div class="side_bar">
             <div class="container-fluid">
                 <div class="row flex-nowrap">
                     <?php echo file_get_contents("baseUI.html"); ?>
@@ -101,7 +102,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                         </div>
                     </div>
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
                     $(document).ready(function () {
@@ -149,18 +149,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
                         $('.confirm_leave').on('click', confirmLeave);
                         $('.reject_leave').on('click', rejectLeave);
                     });
-
-
-
                 </script>
-
-
-
             </div>
         </div>
         </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 
     </html>

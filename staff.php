@@ -5,7 +5,6 @@ session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['logged_in']) {
 
     if (isset($_GET['search'])) {
-        // Lấy cột muốn sắp xếp và hướng sắp xếp từ yêu cầu
         $search = $_GET['search'];
         require_once ('connect_db.php');
         $query = "SELECT * FROM nhan_vien_tbl inner join chuc_vu_tbl on nhan_vien_tbl.id_chuc_vu=chuc_vu_tbl.id_cv WHERE ten LIKE '%$search%'";

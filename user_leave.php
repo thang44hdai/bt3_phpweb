@@ -6,12 +6,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
     $id = 0;
     require_once ('connect_db.php');
 
-    $query1 = "SELECT * from nghi_phep inner join nhan_vien_tbl on nghi_phep.id_nhanvien=nhan_vien_tbl.id_nv
-                                        inner join login_tbl on login_tbl.id = nhan_vien_tbl.id_nv
-                                        where username = ?";
-    $query2 = "SELECT * from nghi_phep inner join nhan_vien_tbl on nghi_phep.id_nhanvien=nhan_vien_tbl.id_nv
-                                         inner join login_tbl on login_tbl.id = nhan_vien_tbl.id_nv
-                                         where username = ?";
+    $query1 = "SELECT * FROM nghi_phep INNER JOIN nhan_vien_tbl ON nghi_phep.id_nhanvien = nhan_vien_tbl.id_nv
+                                        INNER JOIN login_tbl ON login_tbl.id = nhan_vien_tbl.id_nv
+                                        WHERE login_tbl.username = ?";
+    $query2 = "SELECT * FROM luong_tbl
+    INNER JOIN nhan_vien_tbl ON luong_tbl.id_nhanvien = nhan_vien_tbl.id_nv
+    INNER JOIN login_tbl ON login_tbl.id = luong_tbl.id_nhanvien
+    WHERE login_tbl.username = ?";
     $stmt = $con->prepare($query1);
     $stmt->bind_param("s", $_SESSION['username']);
     $stmt->execute();
@@ -37,7 +38,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type']) && $_SESSION['
 
     <body>
         <!-- Side Bar -->
-        <div class="side_bar fixed-top">
+        <div class="side_bar">
             <div class="container-fluid">
                 <div class="row flex-nowrap">
                     <?php echo file_get_contents("user_baseUI.html"); ?>

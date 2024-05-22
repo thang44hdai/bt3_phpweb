@@ -99,6 +99,7 @@
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             if ($row['username'] == $username && $row['password'] == $password) {
+                session_start();
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['user_type'] = $row['user_type'];
                 $_SESSION['logged_in'] = true;
